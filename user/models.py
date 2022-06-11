@@ -41,19 +41,18 @@ class MyUser (AbstractUser):
     first_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(unique=True)
-    image = models.ImageField(upload_to='profile_image', blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     object = MyUserManager()
-
+    
     def __str__(self):
         return self.email + " " + str(self.id)
 
 class Friend (models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    user = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
-    friend = models.ForeignKey(MyUser, related_name='friends', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, blank=True)
+    friend = models.ForeignKey(MyUser, related_name='friends', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.user.email + ' ' + self.friend.email
@@ -71,34 +70,34 @@ class UserPertinence (models.Model):
     ]
 
     id = models.AutoField(primary_key=True, unique=True)
-    user = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
-    department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, null=True, default=None )
-    branch = models.ForeignKey(Branch, on_delete=models.DO_NOTHING, null=True, default=None)
+    user = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, default=None, blank=True)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, default=None, blank=True)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, default=None, blank=True)
     role = models.CharField(max_length=3, choices=role_choices, default='st')
 
     def __str__(self):
-        return f"{self.user.email} || {None if self.department == None else self.department.title} || {None if self.branch == None else self.branch.title } || {self.role}"
+        return f"{None if self.user == None else self.user.email} || {None if self.department == None else self.department.title} || {None if self.branch == None else self.branch.title } || {self.role}"
 
 class HOB (models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    user = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
-    branch = models.ForeignKey(Branch, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, blank=True)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, default=None)
 
     def __str__(self):
         return f"{self.user.first_name} Head Of [{self.branch.title}]"
 
 class HOD (models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    user = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
-    Department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, blank=True)
+    Department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, default=None)
 
     def __str__(self):
         return f"{self.user.first_name} Head Of [{self.branch.title}]"
 
 class BranchRepresentative (models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    user = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
-    branch = models.ForeignKey(Branch, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, blank=True)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.first_name} Representative Of [{self.branch.title}]"

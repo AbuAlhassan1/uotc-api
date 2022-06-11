@@ -12,9 +12,9 @@ class Subject (models.Model):
 
 class SubjectPretinence (models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    subject = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
-    department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
-    branch = models.ForeignKey(Branch, on_delete=models.DO_NOTHING)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, blank=True, default=None)
 
     def __str__(self):
         return self.subject.title + ' ' + self.department.title + ' ' + self.branch.title

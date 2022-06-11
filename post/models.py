@@ -9,10 +9,10 @@ class Post (models.Model):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
     image = models.ImageField(upload_to='post/')
-    auther = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
+    auther = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     is_specific = models.BooleanField(default=False)
-    department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
-    branch = models.ForeignKey(Branch, on_delete=models.DO_NOTHING, null=True)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

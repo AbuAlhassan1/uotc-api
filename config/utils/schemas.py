@@ -11,7 +11,6 @@ class UserCreate (Schema):
     username: str
     email: str
     password: str
-    confirm_password: str
 
 class UserUpdate (Schema):
     first_name: str
@@ -59,6 +58,12 @@ class TokenOut (Schema):
 
 class AuthOut (Schema):
     token: TokenOut
+    user: UserOut
+
+class TokenRes (Schema):
+    message: str
+    access_token: str
+    refresh_token: str
     user: UserOut
 # Token Schemas -- End --
 

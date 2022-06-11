@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-xd2(1&c_m6^m5#8+j$z2#y@&dn@=n%a7!==e=l0^o1uuakei73
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "192.168.100.34",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -45,7 +48,6 @@ INSTALLED_APPS = [
     'post',
     'grade',
     'gathering',
-    'mytoken',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,8 @@ CACHES = {
 }
 
 ROOT_URLCONF = 'config.urls'
+
+STATIC_URL = 'static/'
 
 TEMPLATES = [
     {

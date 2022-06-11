@@ -23,20 +23,35 @@ class GlobalAuth(HttpBearer):
                 'role': str(user_info['role']),
             }
 
-def get_user_token(user: MyUser, user_pretinence: UserPretinence):
+def get_user_access_token(user: MyUser, user_pretinence: UserPretinence):
     token = jwt.encode(
         {
             'pk': str(user.pk),
             'department': str(user_pretinence.department),
             'branch': str(user_pretinence.branch),
             'role': str(user_pretinence.role),
-            # 'claims':{
-            #     "exp": round(time.time()) + 3
-            # }
+            'claims':{
+                "exp": round( time.time() ) + 604800
+            }
         }, 
         key=settings.SECRET_KEY,
         algorithm='HS256'
     )
     return {
         'access': str(token),
+    }
+
+def get_user_refresh_token(user: MyUser):
+    token = jwt.encode(
+        {
+            'pk': str(user.pk),
+            'claims':{
+                "exp": round( time.time() ) + 864000
+            }
+        }, 
+        key=settings.SECRET_KEY,
+        algorithm='HS256'
+    )
+    return {
+        'refresh': str(token),
     }

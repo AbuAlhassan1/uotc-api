@@ -1,6 +1,4 @@
-from ast import Return
-from mytoken.models import MyToken
-from user.authorization import get_user_token
+from user.authorization import get_user_access_token
 from user.models import MyUser, UserPertinence
 
 
@@ -54,22 +52,20 @@ def check_permition(s: MyUser):
     
     return True
 
-def check_token(user: MyUser, request_token: str):
-    try: db_token = MyToken.objects.get(user=user)
-    except: return False
+# import pyrebase
+# # import firebase_admin
 
-    if db_token.token != request_token:
-        return False
-    
-    return True
+# config = {
+#   "apiKey": "AIzaSyA_meCX1wC2HPWicsdlb2L2N8IPg26pEwQ",
+#   "authDomain": "uotc-4c343.firebaseapp.com",
+#   "databaseURL": "https://uotc-4c343-default-rtdb.europe-west1.firebasedatabase.app/",
+#   "projectId": "uotc-4c343",
+#   "storageBucket": "uotc-4c343.appspot.com",
+#   "messagingSenderId": "420182467743",
+#   "appId": "1:420182467743:web:d05a0c278b18999bfd6eaa"
+# };
 
-def reload_user_token(user: MyUser):
-    try: db_token = MyToken.objects.get(user=user)
-    except:
-        user_pretinence = UserPertinence.objects.get(user=user)
-        db_token = MyToken.objects.create(user=user, user_pretinence=user_pretinence)
-
-    user_pretinence = UserPertinence.objects.get(user=user)
-    db_token.token = get_user_token(user=user, user_pretinence=user_pretinence)
-    db_token.save()
+# firebase = pyrebase.initialize_app(config)
+# auth = firebase.auth()
+# database = firebase.database()
 

@@ -9,7 +9,6 @@ from post.views import post_controller
 from subject.views import subject_controller
 from grade.views import grade_controller
 from gathering.views import gathering_controller
-from mytoken.views import mytoken_controller
 
 api = NinjaAPI()
 api.add_router("user", user_controller)
@@ -19,7 +18,6 @@ api.add_router("post", post_controller)
 api.add_router("subject", subject_controller)
 api.add_router("grade", grade_controller)
 api.add_router("gathering", gathering_controller)
-api.add_router("mytoken", mytoken_controller)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
